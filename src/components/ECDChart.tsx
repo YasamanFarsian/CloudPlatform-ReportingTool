@@ -6,22 +6,19 @@ import {
   ECD_WELLBORE_PATH,
   ECD_X_TICKS,
 } from "../data/mockData";
-import { useZoom } from "../hooks/useZoom";
+
 import ChartGrid from "./ChartGrid";
-import ZoomToolbar from "./ZoomToolbar";
+
 
 interface ECDChartProps {
   isDark: boolean;
-  onExpand: () => void;
+
 }
 
-const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
+const ECDChart: React.FC<ECDChartProps> = ({ isDark }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const { currentZoom, wrapRef, zoomIn, zoomOut, reset } = useZoom(
-    scrollRef,
-    svgRef,
-  );
+
 
   const dashColor = isDark ? "#374151" : "#d1d5db";
   const hDashColor = isDark ? "#4a5568" : "#94a3b8";
@@ -38,6 +35,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
         overflow: "hidden",
         height: "100%",
         transition: "background 0.25s",
+        borderRight: "1px solid var(--border)",
       }}
     >
       <div
@@ -45,79 +43,18 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "10px 14px",
+          padding: "0.8rem 14px",
           borderBottom: "1px solid var(--border-inner)",
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: "0.8px",
+          fontSize: 13,
+          fontWeight: 700,
+          letterSpacing: "0px",
           textTransform: "uppercase",
-          color: "var(--text-secondary)",
+          color: "var(--text-Primary)",
           flexShrink: 0,
         }}
       >
         ECD
-        <ZoomToolbar
-          zoom={currentZoom}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
-          onReset={reset}
-          onExpand={onExpand}
-          extraRight={
-            <>
-              <button
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  background: "none",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--text-secondary)",
-                  cursor: "pointer",
-                }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              </button>
-              <button
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  background: "none",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--text-secondary)",
-                  cursor: "pointer",
-                }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-            </>
-          }
-        />
+      
       </div>
 
       <div
@@ -164,7 +101,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
           <div style={{ height: 30, flexShrink: 0 }} />
 
           <div
-            ref={wrapRef}
+          
             style={{
               flex: 1,
               minHeight: 0,
@@ -232,7 +169,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                 />
               </g>
 
-              {/* X-axis */}
+            
               <g fontFamily="DM Mono" fontSize={9} fill="var(--axis-text)">
                 <line
                   x1="38"

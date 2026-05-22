@@ -19,7 +19,7 @@ const SliderCard: React.FC<SliderCardProps> = ({ data }) => {
         transition: "background 0.25s, border-color 0.25s",
       }}
     >
-      {/* Label */}
+      
       <div
         style={{
           fontSize: 10,
@@ -146,6 +146,8 @@ const SliderCard: React.FC<SliderCardProps> = ({ data }) => {
             <span>0.95</span>
           </div>
         )}
+
+        
       </div>
     </div>
   );

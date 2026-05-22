@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ChartModal from "./components/ChartModal";
 import CuttingsChart from "./components/CuttingsChart";
 import ECDChart from "./components/ECDChart";
 import Footer from "./components/Footer";
@@ -11,7 +10,7 @@ import type { ModalChart } from "./types";
 
 const App: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
-  const [modalChart, setModalChart] = useState<ModalChart>(null);
+
 
   return (
     <div
@@ -27,6 +26,7 @@ const App: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
+          height: "100vh",
         }}
       >
         <Navbar isDark={isDark} onToggleTheme={toggleTheme} />
@@ -35,31 +35,27 @@ const App: React.FC = () => {
           style={{
             flex: 1,
             display: "grid",
-            gridTemplateColumns: "500px 1fr 1fr 1fr 1fr",
+            gridTemplateColumns: "22rem 1fr 1fr 1fr 1fr",
             overflow: "hidden",
           }}
         >
           <SafeGuides isDark={isDark} />
           <CuttingsChart
             isDark={isDark}
-            onExpand={() => setModalChart("cuttings")}
+
           />
-          <ECDChart isDark={isDark} onExpand={() => setModalChart("ecd")} />
+          <ECDChart isDark={isDark} />
           <WellboreChart
             isDark={isDark}
-            onExpand={() => setModalChart("ecd")}
+
           />
           <CuttingsChart
             isDark={isDark}
-            onExpand={() => setModalChart("cuttings")}
+
           />
         </div>
 
-        <ChartModal
-          chart={modalChart}
-          isDark={isDark}
-          onClose={() => setModalChart(null)}
-        />
+
       </div>
 
       <Footer />
