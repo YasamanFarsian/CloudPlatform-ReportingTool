@@ -31,12 +31,11 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
         borderRight: "1px solid var(--border)",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden", // ← panel itself never overflows
-        height: "100%", // ← fills the grid cell
+        overflow: "hidden",
+        height: "100%",
         transition: "background 0.25s, border-color 0.25s",
       }}
     >
-      {/* ── Panel header ── */}
       <div
         style={{
           display: "flex",
@@ -49,7 +48,7 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
           letterSpacing: "0.8px",
           textTransform: "uppercase",
           color: "var(--text-secondary)",
-          flexShrink: 0, // ← never shrink the header
+          flexShrink: 0,
         }}
       >
         CUTTINGS
@@ -89,18 +88,16 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
         />
       </div>
 
-      {/* ── Scroll container (only scrolls when zoomed > 100%) ── */}
       <div
         ref={scrollRef}
         style={{
-          flex: 1, // ← takes all remaining vertical space
-          overflow: "auto", // ← scrollbars appear only when SVG is larger
+          flex: 1,
+          overflow: "auto",
           display: "flex",
           flexDirection: "row",
-          minHeight: 0, // ← critical: lets flex child shrink below content size
+          minHeight: 0,
         }}
       >
-        {/* Y-axis label */}
         <div
           style={{
             display: "flex",
@@ -122,7 +119,6 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
           Measured Depth (m)
         </div>
 
-        {/* Right column: headers + SVG */}
         <div
           style={{
             flex: 1,
@@ -133,7 +129,6 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
             minHeight: 0,
           }}
         >
-          {/* Dual X headers (fixed height, never scrolls away) */}
           <div style={{ paddingLeft: 38, flexShrink: 0 }}>
             <div
               style={{
@@ -183,13 +178,12 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
             </div>
           </div>
 
-          {/* SVG wrapper — flex:1 so SVG fills remaining height exactly */}
           <div
             ref={wrapRef}
             style={{
               flex: 1,
               minHeight: 0,
-              overflow: "hidden", // clip at wrapper boundary at 100% zoom
+              overflow: "hidden",
             }}
           >
             <svg
@@ -198,7 +192,7 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
               preserveAspectRatio="xMidYMid meet"
               style={{
                 width: "100%",
-                height: "100%", // ← fills wrapper, wrapper fills panel
+                height: "100%",
                 display: "block",
               }}
             >
@@ -208,12 +202,9 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
                 </clipPath>
               </defs>
 
-              {/* Y-grid */}
               <ChartGrid svgWidth={320} isDark={isDark} />
 
-              {/* Clipped data layer */}
               <g clipPath="url(#cClip)">
-                {/* Vertical dashed reference lines */}
                 <line
                   x1="110"
                   y1="0"
@@ -232,9 +223,9 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
                   strokeDasharray="4,3"
                   strokeWidth={0.8}
                 />
-                {/* Fill area */}
+
                 <path d={CUTTINGS_FILL_PATH} fill="rgba(96,165,250,0.07)" />
-                {/* Inclination S-curve */}
+
                 <path
                   d={CUTTINGS_CURVE_PATH}
                   fill="none"
@@ -246,7 +237,7 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
                     } as React.CSSProperties
                   }
                 />
-                {/* Orange limit line */}
+
                 <line
                   x1="38"
                   y1="652"
@@ -258,7 +249,6 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
                 />
               </g>
 
-              {/* X-axis */}
               <g fontFamily="DM Mono" fontSize={9} fill="var(--axis-text)">
                 <line
                   x1="38"

@@ -1,21 +1,21 @@
 import React, { useRef } from "react";
 import {
-  ECD_DASHED_PATH,
-  ECD_PORE_PATH,
-  ECD_SOLID_PATH,
-  ECD_WELLBORE_PATH,
-  ECD_X_TICKS,
+  WELLBORE_CASING_PATH,
+  WELLBORE_DASHED_PATH,
+  WELLBORE_FORMATION_PATH,
+  WELLBORE_SOLID_PATH,
+  WELLBORE_X_TICKS,
 } from "../data/mockData";
 import { useZoom } from "../hooks/useZoom";
 import ChartGrid from "./ChartGrid";
 import ZoomToolbar from "./ZoomToolbar";
 
-interface ECDChartProps {
+interface WellboreChartProps {
   isDark: boolean;
   onExpand: () => void;
 }
 
-const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
+const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const { currentZoom, wrapRef, zoomIn, zoomOut, reset } = useZoom(
@@ -25,7 +25,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
 
   const dashColor = isDark ? "#374151" : "#d1d5db";
   const hDashColor = isDark ? "#4a5568" : "#94a3b8";
-  const wbFill = isDark ? "#2d3748" : "url(#wbGrad)";
+  const wbFill = isDark ? "#2d3748" : "url(#wellboreGrad)";
   const poreFill = isDark ? "#1f2937" : "#f0f2f5";
   const poreOpacity = isDark ? 0.4 : 0.6;
 
@@ -40,6 +40,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
         transition: "background 0.25s",
       }}
     >
+      {/* ── Panel header ── */}
       <div
         style={{
           display: "flex",
@@ -55,7 +56,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
           flexShrink: 0,
         }}
       >
-        ECD
+        WELLBORE
         <ZoomToolbar
           zoom={currentZoom}
           onZoomIn={zoomIn}
@@ -120,6 +121,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
         />
       </div>
 
+      {/* ── Scroll container ── */}
       <div
         ref={scrollRef}
         style={{
@@ -130,6 +132,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
           minHeight: 0,
         }}
       >
+        {/* Y-axis label */}
         <div
           style={{
             display: "flex",
@@ -151,6 +154,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
           Measured Depth (m)
         </div>
 
+        {/* Right column */}
         <div
           style={{
             flex: 1,
@@ -161,13 +165,16 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
             minHeight: 0,
           }}
         >
+          {/* Spacer to align with cuttings dual X headers */}
           <div style={{ height: 30, flexShrink: 0 }} />
 
+          {/* SVG wrapper */}
           <div
             ref={wrapRef}
             style={{
               flex: 1,
               minHeight: 0,
+              position: "relative",
               overflow: "hidden",
             }}
           >
@@ -175,13 +182,21 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
               ref={svgRef}
               viewBox="0 0 340 680"
               preserveAspectRatio="xMidYMid meet"
-              style={{ width: "100%", height: "100%", display: "block" }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                display: "block",
+              }}
             >
               <defs>
-                <clipPath id="eClip">
+                <clipPath id="wellboreClip">
                   <rect x="38" y="0" width="302" height="660" />
                 </clipPath>
-                <linearGradient id="wbGrad" x1="0" y1="0" x2="1" y2="0">
+                {/* Unique gradient id — avoids collision with ECDChart's wbGrad */}
+                <linearGradient id="wellboreGrad" x1="0" y1="0" x2="1" y2="0">
                   <stop
                     offset="0%"
                     stopColor={isDark ? "#2d3748" : "#e2e8f0"}
@@ -193,11 +208,20 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                 </linearGradient>
               </defs>
 
+              {/* Y-grid */}
               <ChartGrid svgWidth={340} isDark={isDark} />
 
-              <g clipPath="url(#eClip)">
-                <path d={ECD_WELLBORE_PATH} fill={wbFill} opacity={0.7} />
-                <path d={ECD_PORE_PATH} fill={poreFill} opacity={poreOpacity} />
+              {/* Clipped data */}
+              <g clipPath="url(#wellboreClip)">
+                {/* Casing shoe silhouette */}
+                <path d={WELLBORE_CASING_PATH} fill={wbFill} opacity={0.7} />
+                {/* Formation / pressure band */}
+                <path
+                  d={WELLBORE_FORMATION_PATH}
+                  fill={poreFill}
+                  opacity={poreOpacity}
+                />
+                {/* TD marker at 1500 m */}
                 <line
                   x1="38"
                   y1="654"
@@ -207,10 +231,11 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                   strokeDasharray="5,4"
                   strokeWidth={1}
                 />
+                {/* Solid caliper curve */}
                 <path
-                  d={ECD_SOLID_PATH}
+                  d={WELLBORE_SOLID_PATH}
                   fill="none"
-                  stroke="#22c55e"
+                  stroke="#f59e0b"
                   strokeWidth={2.2}
                   style={
                     {
@@ -218,10 +243,11 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                     } as React.CSSProperties
                   }
                 />
+                {/* Dashed bit-size reference */}
                 <path
-                  d={ECD_DASHED_PATH}
+                  d={WELLBORE_DASHED_PATH}
                   fill="none"
-                  stroke="#22c55e"
+                  stroke="#f59e0b"
                   strokeWidth={1.8}
                   strokeDasharray="6,4"
                   style={
@@ -232,7 +258,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                 />
               </g>
 
-              {/* X-axis */}
+              {/* X-axis — Borehole Diameter (in) */}
               <g fontFamily="DM Mono" fontSize={9} fill="var(--axis-text)">
                 <line
                   x1="38"
@@ -242,7 +268,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                   stroke={dashColor}
                   strokeWidth={1}
                 />
-                {ECD_X_TICKS.map(({ x, label }) => (
+                {WELLBORE_X_TICKS.map(({ x, label }) => (
                   <text
                     key={x}
                     x={x}
@@ -261,7 +287,7 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
                   fontFamily="DM Mono"
                   fontSize={8}
                 >
-                  ECD (sg)
+                  Borehole Diameter (in)
                 </text>
               </g>
             </svg>
@@ -272,4 +298,4 @@ const ECDChart: React.FC<ECDChartProps> = ({ isDark, onExpand }) => {
   );
 };
 
-export default ECDChart;
+export default WellboreChart;
