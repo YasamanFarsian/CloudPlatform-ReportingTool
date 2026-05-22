@@ -8,20 +8,17 @@ import {
 } from "../data/mockData";
 import { useZoom } from "../hooks/useZoom";
 import ChartGrid from "./ChartGrid";
-import ZoomToolbar from "./ZoomToolbar";
+
 
 interface WellboreChartProps {
   isDark: boolean;
-  onExpand: () => void;
+ 
 }
 
-const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
+const WellboreChart: React.FC<WellboreChartProps> = ({ isDark }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const { currentZoom, wrapRef, zoomIn, zoomOut, reset } = useZoom(
-    scrollRef,
-    svgRef,
-  );
+ 
 
   const dashColor = isDark ? "#374151" : "#d1d5db";
   const hDashColor = isDark ? "#4a5568" : "#94a3b8";
@@ -38,90 +35,30 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
         overflow: "hidden",
         height: "100%",
         transition: "background 0.25s",
+        borderRight: "1px solid var(--border)",
       }}
     >
-      {/* ── Panel header ── */}
+  
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "10px 14px",
+          padding: "0.8rem 14px",
           borderBottom: "1px solid var(--border-inner)",
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: "0.8px",
+          fontSize: 13,
+          fontWeight: 700,
+          letterSpacing: "0px",
           textTransform: "uppercase",
-          color: "var(--text-secondary)",
+          color: "var(--text-Primary)",
           flexShrink: 0,
         }}
       >
         WELLBORE
-        <ZoomToolbar
-          zoom={currentZoom}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
-          onReset={reset}
-          onExpand={onExpand}
-          extraRight={
-            <>
-              <button
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  background: "none",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--text-secondary)",
-                  cursor: "pointer",
-                }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              </button>
-              <button
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: "none",
-                  background: "none",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--text-secondary)",
-                  cursor: "pointer",
-                }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-            </>
-          }
-        />
+     
       </div>
 
-      {/* ── Scroll container ── */}
+  
       <div
         ref={scrollRef}
         style={{
@@ -132,7 +69,7 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
           minHeight: 0,
         }}
       >
-        {/* Y-axis label */}
+     
         <div
           style={{
             display: "flex",
@@ -154,7 +91,6 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
           Measured Depth (m)
         </div>
 
-        {/* Right column */}
         <div
           style={{
             flex: 1,
@@ -165,12 +101,12 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
             minHeight: 0,
           }}
         >
-          {/* Spacer to align with cuttings dual X headers */}
+        
           <div style={{ height: 30, flexShrink: 0 }} />
 
-          {/* SVG wrapper */}
+          
           <div
-            ref={wrapRef}
+          
             style={{
               flex: 1,
               minHeight: 0,
@@ -195,7 +131,7 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
                 <clipPath id="wellboreClip">
                   <rect x="38" y="0" width="302" height="660" />
                 </clipPath>
-                {/* Unique gradient id — avoids collision with ECDChart's wbGrad */}
+               
                 <linearGradient id="wellboreGrad" x1="0" y1="0" x2="1" y2="0">
                   <stop
                     offset="0%"
@@ -208,20 +144,19 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
                 </linearGradient>
               </defs>
 
-              {/* Y-grid */}
               <ChartGrid svgWidth={340} isDark={isDark} />
 
-              {/* Clipped data */}
+            
               <g clipPath="url(#wellboreClip)">
-                {/* Casing shoe silhouette */}
+              
                 <path d={WELLBORE_CASING_PATH} fill={wbFill} opacity={0.7} />
-                {/* Formation / pressure band */}
+              
                 <path
                   d={WELLBORE_FORMATION_PATH}
                   fill={poreFill}
                   opacity={poreOpacity}
                 />
-                {/* TD marker at 1500 m */}
+                
                 <line
                   x1="38"
                   y1="654"
@@ -231,7 +166,7 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
                   strokeDasharray="5,4"
                   strokeWidth={1}
                 />
-                {/* Solid caliper curve */}
+              
                 <path
                   d={WELLBORE_SOLID_PATH}
                   fill="none"
@@ -243,7 +178,7 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
                     } as React.CSSProperties
                   }
                 />
-                {/* Dashed bit-size reference */}
+              
                 <path
                   d={WELLBORE_DASHED_PATH}
                   fill="none"
@@ -258,7 +193,7 @@ const WellboreChart: React.FC<WellboreChartProps> = ({ isDark, onExpand }) => {
                 />
               </g>
 
-              {/* X-axis — Borehole Diameter (in) */}
+            
               <g fontFamily="DM Mono" fontSize={9} fill="var(--axis-text)">
                 <line
                   x1="38"

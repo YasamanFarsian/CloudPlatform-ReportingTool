@@ -4,22 +4,19 @@ import {
   CUTTINGS_FILL_PATH,
   CUTTINGS_X_TICKS,
 } from "../data/mockData";
-import { useZoom } from "../hooks/useZoom";
+
 import ChartGrid from "./ChartGrid";
-import ZoomToolbar from "./ZoomToolbar";
+
 
 interface CuttingsChartProps {
   isDark: boolean;
-  onExpand: () => void;
+
 }
 
-const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
+const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const { currentZoom, wrapRef, zoomIn, zoomOut, reset } = useZoom(
-    scrollRef,
-    svgRef,
-  );
+ 
 
   const dashColor = isDark ? "#374151" : "#d1d5db";
   const refColor = isDark ? "#374151" : "#d1d5db";
@@ -41,51 +38,18 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "10px 14px",
+          padding: "0.8rem 14px",
           borderBottom: "1px solid var(--border-inner)",
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: "0.8px",
+          fontSize: 13,
+          fontWeight: 700,
+          letterSpacing: "0px",
           textTransform: "uppercase",
-          color: "var(--text-secondary)",
+          color: "var(--text-Primary)",
           flexShrink: 0,
         }}
       >
         CUTTINGS
-        <ZoomToolbar
-          zoom={currentZoom}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
-          onReset={reset}
-          onExpand={onExpand}
-          extraRight={
-            <button
-              style={{
-                width: 28,
-                height: 28,
-                border: "none",
-                background: "none",
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-secondary)",
-                cursor: "pointer",
-              }}
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-          }
-        />
+       
       </div>
 
       <div
@@ -179,7 +143,7 @@ const CuttingsChart: React.FC<CuttingsChartProps> = ({ isDark, onExpand }) => {
           </div>
 
           <div
-            ref={wrapRef}
+            
             style={{
               flex: 1,
               minHeight: 0,

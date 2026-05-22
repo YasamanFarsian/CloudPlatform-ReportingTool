@@ -23,7 +23,7 @@ const TripSpeedGauge: React.FC<TripSpeedGaugeProps> = ({ isDark }) => {
     >
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: 600,
           letterSpacing: "0.7px",
           textTransform: "uppercase",
@@ -37,7 +37,7 @@ const TripSpeedGauge: React.FC<TripSpeedGaugeProps> = ({ isDark }) => {
         TRIP SPEED (M/S)
         <span
           style={{
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 500,
             padding: "2px 8px",
             borderRadius: 4,
@@ -51,69 +51,56 @@ const TripSpeedGauge: React.FC<TripSpeedGaugeProps> = ({ isDark }) => {
       </div>
 
       <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-        <svg
-          width="130"
-          height="78"
-          viewBox="0 0 130 78"
-          style={{ flexShrink: 0 }}
-        >
+
+        <svg width="130" height="85" viewBox="0 0 130 85" style={{ flexShrink: 0 }}>
+
+
           <path
-            d="M10,70 A60,60 0 0,1 120,70"
+            d="M65,70 L10,70 A60,60 0 0,1 95,12 Z"
+            fill="#fde8e8"
+          />
+
+
+
+          <path
+            d="M10,70 A60,60 0 0,1 95,12"
             fill="none"
-            stroke="var(--bg-track)"
-            strokeWidth="10"
+            stroke="#991b1b"
+            strokeWidth="8"
             strokeLinecap="round"
           />
 
-          <path
-            d="M85,18 A60,60 0 0,1 120,70"
-            fill="none"
-            stroke="#fecaca"
-            strokeWidth="10"
-            strokeLinecap="round"
-          />
-
-          <path
-            d="M10,70 A60,60 0 0,1 65,10"
-            fill="none"
-            stroke="#dcfce7"
-            strokeWidth="10"
-            strokeLinecap="round"
-          />
-
-          <path
-            d="M65,10 A60,60 0 0,1 107,33"
-            fill="none"
-            stroke="#ef4444"
-            strokeWidth="10"
-            strokeLinecap="round"
-            opacity=".5"
-          />
 
           <line
             x1="65"
             y1="70"
-            x2="107"
-            y2="32"
+            x2="95"
+            y2="12"
             stroke={needleColor}
-            strokeWidth="2.5"
+            strokeWidth="3"
             strokeLinecap="round"
           />
-          <circle cx="65" cy="70" r="4" fill={needleColor} />
+          <circle cx="65" cy="70" r="5" fill={needleColor} />
 
-          <text x="7" y="78" fontSize="9" fill={axisColor} fontFamily="DM Mono">
-            -0.95
-          </text>
           <text
-            x="103"
-            y="78"
-            fontSize="9"
-            fill={axisColor}
-            fontFamily="DM Mono"
+            x="100"
+            y="9"
+            fontSize="11"
+            fontWeight="700"
+            fill={needleColor}
+            fontFamily="DM Sans, sans-serif"
+            textAnchor="middle"
           >
-            0.95
+            0.75
           </text>
+
+
+          <text x="5" y="82" fontSize="9" fill={axisColor} fontFamily="DM Mono">-0.95</text>
+          <text x="100" y="82" fontSize="9" fill={axisColor} fontFamily="DM Mono">0.95</text>
+
         </svg>
+
+
 
         <div style={{ flex: 1, paddingTop: 4 }}>
           <div
@@ -176,7 +163,7 @@ const TripSpeedGauge: React.FC<TripSpeedGaugeProps> = ({ isDark }) => {
           <div
             style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6 }}
           >
-            Lorem Ipsum Text
+            Speed limit Report
           </div>
 
           <div style={{ display: "flex", gap: 12, marginTop: 8 }}>

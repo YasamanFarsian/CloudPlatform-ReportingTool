@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
         flexShrink: 0,
       }}
     >
-      <p>paneeeeeeeeeel</p>
+      <p>All right reserved.</p>
     </div>
   );
 };

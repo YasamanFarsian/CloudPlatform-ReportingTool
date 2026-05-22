@@ -38,6 +38,7 @@ export const SLIDER_CARDS: SliderCard[] = [
     fillColor: "#6b7a90",
     active: false,
   },
+
   {
     id: "hookload",
     label: "HOOKLOAD (ton)",
@@ -59,6 +60,17 @@ export const SLIDER_CARDS: SliderCard[] = [
     displayValue: "0.45",
     fillColor: "#3b82f6",
     active: true,
+  },
+   {
+    id: "Torque",
+    label: "SPB (bar)",
+    badge: "Inactive",
+    statusColor: "#6b7a90",
+    statusText: "No active signal",
+    value: 0,
+    displayValue: "",
+    fillColor: "#6b7a90",
+    active: false,
   },
 ];
 
